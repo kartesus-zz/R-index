@@ -16,7 +16,8 @@ post '/updates' do
   packages = Net::HTTP.get(URI(url))
 
   begin
-    repo << packages
+    manifest = Manifest.new(packages)
+    repo << manifest.take(50)
     status 201
     url
   rescue StandardError => e

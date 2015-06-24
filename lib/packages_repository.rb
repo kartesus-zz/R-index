@@ -2,7 +2,6 @@ require 'fileutils'
 require 'securerandom'
 
 require 'sqlite3'
-require 'dcf'
 
 class PackagesRepository
   def initialize(dbname)
@@ -13,7 +12,6 @@ class PackagesRepository
   end
 
   def << packages
-    packages = Dcf.parse(packages)
     packages.each do |package|
       @db.execute "insert into packages values (?,?)", [SecureRandom.hex(8), package["Package"]]
     end
