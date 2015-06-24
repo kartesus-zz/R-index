@@ -28,7 +28,7 @@ RSpec.describe "Server API" do
       get '/packages.json'
       packages = JSON.parse(last_response.body)
       expect(last_response).to be_ok
-      expect(packages.first).to eq({"name" => "A3"})
+      expect(packages.first).to eq({"name" => "A3", "latest_version" => "0.9.2"})
     end
   end
 end
