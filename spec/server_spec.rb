@@ -20,6 +20,7 @@ RSpec.describe "Server API" do
       expect(last_response).to be_created
       expect(last_response.body).to eq('http://localhost:1234/PACKAGES')
     end
+
   end
 
   describe "GET /packages.json" do

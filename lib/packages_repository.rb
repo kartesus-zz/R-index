@@ -8,15 +8,15 @@ class PackagesRepository
     FileUtils.mkdir_p File.expand_path('../data', File.dirname(__FILE__))
     @db = SQLite3::Database.new File.expand_path("../data/#{dbname}.db", File.dirname(__FILE__))
     @db.results_as_hash = true
-    @db.execute "create table if not exists packages (id VARCHAR(8), name VARCHAR(150))"
-    @db.execute "create table if not exists package_versions (package_id VARCHAR(8), version VARCHAR(10))"
+    @db.execute "create table if not exists packages (name VARCHAR(150))"
+    @db.execute "create table if not exists package_versions (package_name VARCHAR(150), version VARCHAR(10))"
   end
 
   def << packages
     packages.each do |package|
-      id = SecureRandom.hex(8)
-      @db.execute "insert into packages values (?,?)", [id, package["Package"]]
-      @db.execute "insert into package_versions values (?,?)", [id, package["Version"]]
+      name = package["Package"]
+      @db.execute "insert into packages values (?)", [name]
+      @db.execute "insert into package_versions values (?,?)", [name, package["Version"]]
     end
   end
 
@@ -24,7 +24,7 @@ class PackagesRepository
     sql = <<-SQL
       select p.name, v.version as latest_version
       from packages as p
-      left join package_versions as v on v.package_id = p.id
+      left join package_versions as v on v.package_name = p.name
     SQL
     @db.execute(sql).map {|r| {"name" => r["name"], "latest_version" => r["latest_version"]} }
   end
