@@ -1,10 +1,7 @@
 require 'rack/test'
 require 'sinatra'
 
-require 'support/cran'
 require 'server_api'
-
-Cran.run(1234)
 
 RSpec.describe "Server API" do
   include Rack::Test::Methods

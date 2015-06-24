@@ -21,3 +21,8 @@ To make it easier to manage the index we provide a command line interface for th
 
     $ bin/rpackages update # updates the index
     $ bin/rpackages list # lists the packages
+
+## Testing
+Before running server_specs please start the mock service for cran.
+
+    $ bundle exec ruby spec/support/cran
