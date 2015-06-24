@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'uri'
 require 'net/http'
+require 'json'
 
 require 'packages_repository'
 
@@ -8,8 +9,9 @@ repo = PackagesRepository.new('packages')
 
 disable :show_exceptions
 
-post '/updates.json' do
-  content_type :json
+post '/updates' do
+  content_type :text
+
   url = request.body.read
   packages = Net::HTTP.get(URI(url))
 
@@ -21,4 +23,9 @@ post '/updates.json' do
     status 502
     url
   end
+end
+
+get '/packages.json' do
+  content_type :json
+  repo.all.to_json
 end
